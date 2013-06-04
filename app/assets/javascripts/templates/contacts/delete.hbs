@@ -1,0 +1,14 @@
+<form class="form-horizontal">
+  <legend>Delete Contact</legend>
+
+<h2 class='offset1'>{{symbol}}</h2>
+
+<h2><img {{bindAttr src="gravatar"}} />{{fullName}}</h2>
+
+<div class="form-actions">
+<a class="btn btn-mini btn-danger" {{action destroyRecord}}>Delete</a>
+  <button class="btn btn-mini" {{action cancel}}>Cancel</button>
+</div>
+
+</form>
+

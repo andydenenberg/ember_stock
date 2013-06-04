@@ -1,0 +1,21 @@
+
+<form class="bs-docs-example form-inline">
+		<h2>{{symbol}}</h2>
+	<dl class="dl-horizontal">
+	    <dt>Acquired:</dt>
+	    <dd>{{created}}</dd>
+	    <dt>Quantity:</dt>
+	    <dd>{{quantity}}</dd>
+	    <dt>Price:</dt>
+	    <dd>${{purchase_price_format}}</dd>
+	    <dt>Cost:</dt>
+	    <dd>${{position_cost}}</dd>			
+	    <dt>Belongs to:</dt>
+	    <dd>{{contact.fullName}}</dd>			
+	</dl>
+</form>
+
+<div class="well well-small">
+{{#linkTo "stocks.edit" content class="btn btn-mini btn-success"}}Edit{{/linkTo}}
+{{#linkTo "stocks.delete" content class="btn btn-mini btn-danger"}}Delete{{/linkTo}}
+</div>

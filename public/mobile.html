@@ -1,0 +1,381 @@
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title></title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/html5-style.css?v=2">
+  <link rel="stylesheet" href="css/jquery-ui-1.10.2.css">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+
+<script type="text/x-handlebars"  data-template-name="application">
+
+
+    {{view App.goHomeView label="Home"}}
+	{{view App.goContactsView label="Contacts"}}
+	{{view App.goProgressView label="Progress"}}
+  
+
+	{{outlet sidebar}}
+<hr>
+{{outlet second}}
+
+<br>
+<a href='/test.html'>Full Site</a> | <a href='/mobile.html'>Full Refresh</a>
+
+<form>
+  <div id="radio">
+    <input type="radio" id="radio1" name="radio" /><label for="radio1">Choice 1</label>
+    <input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Choice 2</label>
+    <input type="radio" id="radio3" name="radio" /><label for="radio3">Choice 3</label>
+  </div>
+</form>
+
+</script>
+
+
+<script type="text/x-handlebars" data-template-name="contacts">
+
+<table  class='table table-bordered table-striped table-condensed'>
+<tr>
+	<th>Full Name</th>
+	<th>#</th>
+	<th>Value</th>
+	<th>Controls</th>
+</tr>
+
+{{#each contact in controller}}
+<tr>
+<td>{{#linkTo "contact" contact}} {{contact.fullName}}{{/linkTo}}  ({{contact.state}}) </td>
+<td style='text-align:right;'> {{contact.stocks.length}} </td>
+<td style='text-align:right;'> ${{decimal contact.portfolio_value}}</td>
+<td> {{#linkTo "contacts.edit" contact class='btn btn-mini'}}Edit{{/linkTo}} |
+	 {{#linkTo "contacts.delete" contact class='btn btn-mini'}}Delete{{/linkTo}}
+</td>
+</tr>
+{{/each}}
+</table>
+</script>
+
+
+<script type="text/x-handlebars" data-template-name="popover-content">
+    <div id="popover-content" style="display:none" >
+        {{view Ember.TextField valueBinding="fullName"}}  
+  		{{view Ember.TextField valueBinding="email" placeholder="Email"}}
+  		{{view Ember.TextField valueBinding="notes" placeholder="Notes"}}
+		Total: ${{total_cost}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="contact">
+{{#if controller.isEditing}}
+	<form {{action save on="submit"}} class="form-horizontal">
+	  <legend>Edit Contact 	|
+		{{store_state}}
+	</legend>
+
+	  {{partial "contact_edit_fields"}}
+
+	  <div class="form-actions">
+		<button type="submit" class="btn btn-primary">Update</button>
+	    <button class="btn" {{action stopEditing}}>Cancel</button>
+	  </div>
+	</form>
+
+{{else}}
+
+<div class='row'>
+	<div class='span2 offset1'>
+	      	<img {{bindAttr src="gravatar"}} /><br>
+		    <b>{{fullName}}</b><br>
+		
+		
+	    <button class="btn btn-mini green_button popoverButton">about..</button>
+	    {{view Popover templateName="popover-content" parentSelector=".popoverButton" contentSelector="#popover-content" }}
+
+
+		  {{#if notes}}
+		    {{notes}}<br>
+		  {{/if}}
+		  {{#if phoneNumbers.length}}
+		      {{#each phoneNumber in phoneNumbers}}
+		        {{phoneNumber.number}}<br>
+		      {{/each}}
+		  {{/if}}
+	</div>
+	<div class='span8'>	
+		{{#if stocks.length}}
+		<table class='table table-condensed table-bordered table-striped'>		
+			{{partial "stock_table_header"}}
+		      {{#each stock in stocks}}
+				{{partial "stock_table"}}
+		      {{/each}}
+			<tr>
+			<td>Total</td>
+			<td></td><td></td>
+			<td style='text-align:right;'>${{total_cost}}</td>
+			<td></td><td></td><td></td><td></td>
+			</tr>
+		</table>
+	  {{/if}}
+	</div>
+</div>
+
+
+
+
+<div class="well well-small">
+  <button  class="btn btn-primary" {{action startEditing}}>Edit</button>
+  <button  class="btn btn-error" {{action destroyRecord}}>Destroy Contact</button>
+</div>
+{{/if}}
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="new_contact">
+<form {{action save on="submit"}} class="form-horizontal">
+  <legend>Create Contact</legend>
+
+  {{partial "contact_edit_fields"}}
+
+  <div class="form-actions">
+	<button type="submit" class="btn btn-primary">Create</button>
+    <button class="btn" {{action cancel}}>Cancel</button>
+  </div>
+</form>
+</script>
+
+<script type="text/x-handlebars" data-template-name="edit_contact">
+<form {{action save on="submit"}} class="form-horizontal">
+  <legend>Edit Contact</legend>
+
+  {{partial "contact_edit_fields"}}
+
+  <div class="form-actions">
+	<button type="submit" class="btn btn-primary">Update</button>
+    <button class="btn" {{action cancel}}>Cancel</button>
+  </div>
+
+</form>
+</script>
+
+<script type="text/x-handlebars" data-template-name="delete_contact">
+
+<h2><img {{bindAttr src="gravatar"}} />{{fullName}}</h2>
+<br>
+<button {{action destroyRecord}}>Destroy Contact</button>
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="_contact_edit_fields">
+
+<div class='row'>
+	<div class='span3'>
+	
+		<div class="control-group">
+		  <label class="control-label" for="firstName">First name</label>
+		  <div class="controls">
+		    {{view Ember.TextField valueBinding="firstName" id="firstName" placeholder="First name" required="true"}}
+		  </div>
+		</div>
+
+		<div class="control-group">
+		  <label class="control-label" for="lastName">Last name</label>
+		  <div class="controls">
+		    {{view Ember.TextField valueBinding="lastName" id="lastName" placeholder="Last name" required="true"}}
+		  </div>
+		</div>
+
+		<div class="control-group">
+		  <label class="control-label" for="email">Email</label>
+		  <div class="controls">
+		    {{view Ember.TextField valueBinding="email" id="email" type="email" placeholder="Email address"}}
+		  </div>
+		</div>
+
+		<div class="control-group">
+		  <label class="control-label" for="phone">Phone</label>
+		  <div class="controls">
+		    {{#each phoneNumbers}}
+			  <div class="input-append">
+		        {{view Ember.TextField valueBinding="number" placeholder="Number" class="input-small"}}
+		        <a class="btn" {{action removePhoneNumber this}}><i class="icon-minus-sign"></i> Remove</a>
+		      </div>
+		    {{/each}}
+		  </div>
+		</div>
+		
+		<div class="control-group">
+		  <div class="controls">
+			  <a class="btn" {{action addPhoneNumber}}>Add phone</a>
+		  </div>
+		</div>
+		    
+	</div>
+
+	<div class='span8'>
+	
+		{{#each stocks}}
+			<div class="control-group">
+		  <label class="control-label" for="stock">Stock</label>
+			  <div class="controls">
+	
+				<div class="input-append">
+				    {{view Ember.TextField valueBinding="quantity" placeholder="Quantity"  class="input-small"}}
+				  <span class="add-on">Shares</span>
+				</div>
+	
+				<div class="input-prepend">
+				  <span class="add-on">of</span>
+				    {{view Ember.TextField valueBinding="symbol" placeholder="Symbol" class="input-small"}} 
+				</div>
+	
+				<div class="input-prepend input-append">
+				  <span class="add-on">$</span>
+					{{view Ember.TextField valueBinding="purchase_price" placeholder="Purchase Price" class="input-small"}}
+				  <span class="add-on">per share</span>
+					<a class="btn" {{action removeStock this}}><i class="icon-minus-sign"></i> Remove</a>
+				</div>
+
+			  </div>
+		   </div>
+		{{/each}}
+		
+		<div class="control-group">
+		  <div class="controls">
+			  <a class="btn" {{action addStock}}><i class="icon-plus-sign"></i> Add a Stock</a>
+		  </div>
+		</div>
+		
+	</div>
+</div>
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="stocks">
+ <table class='table table-bordered table-striped table-condensed'>
+  {{partial "stock_table_header"}}
+  {{#each stock in controller}}
+	{{partial "stock_table"}}
+  {{/each}}
+	<tr>
+	<td>Total</td>
+	<td></td>
+	<td></td>
+	<td style='text-align:right;'>${{total_cost}}</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	</tr>
+  </table>
+</script>
+
+<script type="text/x-handlebars" data-template-name="stock">
+<h2>{{symbol}}</h2>
+	<dl class="dl-horizontal">
+	    <dt>Acquired:</dt>
+	    <dd>{{created}}</dd>
+	    <dt>Quantity:</dt>
+	    <dd>{{quantity}}</dd>
+	    <dt>Price:</dt>
+	    <dd>${{purchase_price_format}}</dd>
+	    <dt>Cost:</dt>
+	    <dd>${{position_cost}}</dd>	
+	</dl>
+</script>
+
+<script type="text/x-handlebars" data-template-name="_stock_table_header">
+<tr>
+	<th>Symbol</th>
+	<th>Quantity</th>
+	<th>Purchase Price</th>
+	<th>Cost</th>
+	<th>Date Acquired</th>
+	<th>ID</th>
+	<th>Contact</th>
+	<th>Controls</th>
+</tr>
+</script>
+
+<script type="text/x-handlebars" data-template-name="_stock_table">
+<tr>
+<td>{{#linkTo "stock" stock}} {{stock.symbol}}{{/linkTo}}</td>
+<td style='text-align:right;'> {{decimal stock.quantity}} </td>
+<td style='text-align:right;'> ${{decimal stock.purchase_price}} </td>
+<td style='text-align:right;'> ${{decimal stock.position_cost}} </td>
+<td> {{stock.created}} </td>
+<td> {{stock.id}}</td>
+<td> {{stock.contact.fullName}}</td>
+<td> {{#linkTo "stocks.edit" stock class='btn btn-mini'}}Edit{{/linkTo}}
+	 {{#linkTo "stocks.delete" stock class='btn btn-mini btn-danger'}}Delete{{/linkTo}}
+	 <a class="btn btn-mini btn-danger" {{action test_it }}>Delete</a>
+</td>
+</tr>
+</script>
+
+
+<script type="text/x-handlebars" data-template-name="about">
+
+<br>
+{{#collection JQ.MenuView contentBinding="people" disabledBinding="menuDisabled"}}
+  <a href='#'>{{name}}</a>
+{{else}}
+  <a href="#">LIST NOT LOADED</a>
+{{/collection}}
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="progress">
+    {{view App.ButtonView label="Click to Load People"}}
+    <br><br>
+    {{view App.ProgressBarView valueBinding="progress"}}
+    <br><br>
+    {{#collection JQ.MenuView contentBinding="people" disabledBinding="menuDisabled"}}
+      {{#linkTo "contact" contact}}{{name}}{{/linkTo}}</a>
+    {{else}}
+      <a href="#">LIST NOT LOADED</a>
+    {{/collection}}
+<br>
+</script>
+
+
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script src="lib/jquery-1.9.1.js"></script>
+<script src="lib/handlebars-1.0.0-rc.3.js"></script>
+<script src="lib/ember.js"></script>
+<script src="lib/ember-data.js"></script>
+<script src='lib/md5.js'></script>
+<script src="ember/test.js"></script>
+<script src="ember/store.js"></script>
+<script src="ember/models.js"></script>
+<script src="ember/router.js"></script>
+<script src="ember/controllers.js"></script>
+<script src='ember/helpers.js'></script>
+<script src="lib/jquery-ui-1.10.2.js"></script>
+
+<script src="lib/ember-jqueryUI.js"></script>
+<script src="jqapp.js"></script>
+
+<script>
+  App.advanceReadiness();
+
+  $(function() {
+    $( "#radio" ).buttonset();
+  });
+
+</script>
+
+</body>
+</html>

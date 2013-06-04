@@ -1,0 +1,12 @@
+
+<form {{action save on="submit"}} class="form-horizontal">
+  <legend>Edit Stock</legend>
+
+  {{partial "stock_edit_fields"}}
+
+  <div class="form-actions">
+    <button class="btn btn-mini btn-info" {{submitButton "Update"}}</button>
+    <button class="btn btn-mini" {{action cancel}}>Cancel</button>
+  </div>
+</form>
+
