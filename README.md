@@ -10,7 +10,7 @@ It uses the edge versions of Ember and Ember Data.
 
 The app itself is a simple, single-page contact manager styled with Twitter Bootstrap.
 
-![Screen shot](https://raw.github.com/dgeb/ember_data_example/master/doc/ss.png)
+![Screen shot](https://github.com/andydenenberg/ember_stock/blob/master/EmberStock.png)
 
 ## Installation
 
