@@ -1,6 +1,8 @@
 App.ContactsNewController = Em.ObjectController.extend({
+
   startEditing: function() {
     // create a new record on a local transaction
+
     this.transaction = this.get('store').transaction();
     this.set('content', this.transaction.createRecord(App.Contact, {}));
   },
@@ -14,9 +16,20 @@ App.ContactsNewController = Em.ObjectController.extend({
   },
 
   save: function() {
+	// uppercase the Stock Symbol
+	stocks = this.get('content').get('stocks') ;
+	stocks.forEach (function(stock) {
+		stock.set('symbol', stock.get('symbol').toUpperCase() ) ;
+	});
+	
     // commit and then clear the local transaction
     this.transaction.commit();
     this.transaction = null;
+
+    console.log('contact_saved');
+	  count = App.Contact.find().get('length') ;	
+	  App.set('contact_count', count);
+
   },
 
   transitionAfterSave: function() {
@@ -38,5 +51,14 @@ App.ContactsNewController = Em.ObjectController.extend({
 
   removePhoneNumber: function(phoneNumber) {
     phoneNumber.deleteRecord();
-  }
+  }	,
+
+	  addStock: function() {
+	    this.get('content.stocks').createRecord();
+	  },
+
+	  removeStock: function(stock) {
+	    stock.deleteRecord();
+
+	  }
 });

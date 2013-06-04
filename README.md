@@ -1,3 +1,6 @@
+# Running a web server 
+python -m SimpleHTTPServer 3003
+
 # Ember Data Example
 
 This is a simple Rails 3.2 app created to demo [Ember.js](https://github.com/emberjs/ember.js),

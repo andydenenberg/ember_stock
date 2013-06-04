@@ -20,6 +20,11 @@ App.ContactController = Em.ObjectController.extend({
       this.get('content').deleteRecord();
       this.get('store').commit();
 
+    console.log('contact_deleted');
+	  count = App.Contact.find().get('length') ;	
+	  App.set('contact_count', count);
+
+
       // return to the main contacts listing page
       this.get('target.router').transitionTo('contacts.index');
     }

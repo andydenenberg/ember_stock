@@ -44,11 +44,15 @@ private
                                     :last_name,
                                     :email,
                                     :notes,
-                                    phone_numbers: [:id, :number])
+                                    phone_numbers: [:id, :number],
+                                    stocks: [:id, :symbol, :quantity, :purchase_price, :last_price])
   end
 
   def update_contact(contact)
     contact_params = permitted_params
+    stocks_param = contact_params.extract!(:stocks)
+    stocks_param = stocks_param[:stocks]
+    stocks_param ||= []
     phone_numbers_param = contact_params.extract!(:phone_numbers)
     phone_numbers_param = phone_numbers_param[:phone_numbers]
     phone_numbers_param ||= []
@@ -59,6 +63,21 @@ private
       # Update the contact's own attributes first.
       contact.attributes = contact_params
       contact.save!
+
+        # Update the contact's stocks, creating/destroying as appropriate.
+        specified_stocks = []
+        stocks_param.each do |stock_params|
+          if stock_params[:id]
+            st = contact.stocks.find(stock_params[:id])
+            st.update_attributes(stock_params)
+          else
+            st = contact.stocks.create(stock_params)
+          end
+          specified_stocks << st
+        end
+        contact.stocks.each do |st|
+          st.destroy unless specified_stocks.include?(st)
+        end
 
       # Update the contact's phone numbers, creating/destroying as appropriate.
       specified_phone_numbers = []

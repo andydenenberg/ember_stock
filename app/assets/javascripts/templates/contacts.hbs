@@ -1,7 +1,8 @@
 <div class="span3">
   <div class="well sidebar-nav">
     <ul class="nav nav-list">
-      <li class="nav-header">All contacts</li>
+      <li class="nav-header">All contacts ( {{App.contact_count}} )
+	</li>
       {{#each contact in controller}}
         {{view App.ContactInListView contentBinding="contact"}}
       {{/each}}
@@ -9,6 +10,39 @@
   </div>
 </div>
 <div class="span9">
+
+<div id="flash" class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <span></span>
+</div>
+
   {{outlet}}
+
+{{#if controller.activeContactId}}
+{{else}}
+	<h2>All Contacts</h2>
+	<table class="table table-condensed table-bordered">
+	<tr>
+		<th>Full Name</th>
+		<th>ID</th>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th># of Stocks</th>
+		<th>Total Value of Stocks
+		<button {{action sort}} class="sort" >{{sort_arrow sortAscending}}</button>
+		
+		</th>
+		<th>Controls</th>
+	</tr>
+  {{#each contact in controller}}
+	<tr>
+    {{view App.ContactInMainView contentBinding="contact"}}
+	</tr>
+  {{/each}}
+	</table>
+{{/if}}
+
+{{total_value}}
+
 </div>
 
