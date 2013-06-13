@@ -1,6 +1,8 @@
 App.StockRoute = Ember.Route.extend({
 
   setupController: function(controller, model) {
+	
+	this.controller.set('content', model ) ;
     this.controllerFor('stocks').set('activeStockId', model.get('id'));
   },
 

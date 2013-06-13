@@ -1,7 +1,6 @@
 <td>{{#linkTo "contact" contact}} {{contact.fullName}}{{/linkTo}}</td>
 <td> {{contact.id}} </td>
-<td> {{contact.firstName}} </td>
-<td> {{contact.lastName}} </td>
+<td> {{contact.email}} </td>
 <td style='text-align:right;'> {{contact.stocks.length}} </td>
 <td style='text-align:right;'> ${{decimal contact.portfolio_value}}</td>
 <td> {{#linkTo "contacts.edit" contact class='btn btn-mini btn-info'}}Edit{{/linkTo}}

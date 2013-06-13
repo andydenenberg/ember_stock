@@ -1,5 +1,8 @@
 App.ContactRoute = Ember.Route.extend({
   setupController: function(controller, model) {
+	
+	this.controller.set('content', model ) ;
+	
     // reset editing state
     // note: this is necessary here because `deactivate` won't be called when transitioning
     //       from one ContactRoute directly into another

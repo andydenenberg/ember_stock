@@ -1,7 +1,8 @@
 
 App.StocksEditController = Em.ObjectController.extend({
-  needs: ['stock'],
+  needs: ['stock','stocks'],
   selectedContact: null,
+  contact_id: null,
   	
   contacts: function() {
 	var contacts = App.Contact.find() ;
@@ -13,63 +14,37 @@ App.StocksEditController = Em.ObjectController.extend({
 
 
   save: function() {	
+	
 	var stock = this.get('content')
 	var stock_attr = stock.get('data.attributes') ;
-	var contact = stock.get('contact') ;
+	var contact = this.get('selectedContact') ;
 	
-	updated_contact_id = contact.get('id') ;
-	console.log('old:', contact_id, 'new:', updated_contact_id ) ;
-	
+	// check whether stock has moved from one contact to another		
+	updated_contact_id = contact.get('id') ;	
 	if (updated_contact_id != contact_id) { 
-		this.store.commit();
-		
-		console.log( App.Stock.find().get('length') ) ;
-		
-	    NewStock = App.Stock.createRecord(stock_attr) ;	
-		contact.get("stocks").pushObject(NewStock);
-		this.store.commit();
-
-		stocks = this.controllerFor('stocks').get('stocks');
-		
-		console.log( 'sotcks_length', stocks.get('length') ) ;
-
+		stock.deleteRecord(); // delete old record		
+		contact.get("stocks").createRecord(stock_attr) ;	
+		console.log('contact_stocks', contact.get('stocks')) ;		
 	}
-	//	
-	
-	
-//	contact = App.Contact.find(contact.id)
-//	contact.get("stocks").pushObject(NewStock);
 	
     this.store.commit();
 
-//    var stocks = this.controllerFor('stocks').get('stocks');
-//	console.log('Length' , stocks.get('length')) ;
-//	stocks.forEach(function(stk) {
-//      console.log(stk);
-//    });
-    
+//	// check and remove any stock records created, but not persisted in server ( id: null ) 
+	this.get('controllers.stocks').clean_up() ;
+	
+	flash_message('Stock successfully updated.', 'success') ;	
+	
+  	return this.transitionToRoute('stocks' );
 
-//    console.log('stock_saved');
-//	  count = 	App.Stock.find().getEach('quantity').reduce(function(
-//							previousValue, currentValue, index, array){
-//		  							return Number(previousValue) + Number(currentValue)
-//									});	
-//	  App.set('total_quantity', count);
-
-	$("#flash span").text("Stock successfully updated.")
-	.show().parent().fadeIn()
-	.delay(2000).fadeOut('slow', function() { 
-	    $("#flash span").text('') 
-	});
-
-  return this.transitionToRoute('stock', this.content);
-
-//	var stocks = App.Stock.find();
-//	this.controllerFor('stocks').set('stocks', stocks);
-
-//	return this.transitionToRoute('stocks');
   },
 
+  transitionAfterSave: function() {
+    // when creating new records, it's necessary to wait for the record to be assigned
+    // an id before we can transition to its route (which depends on its id)
+    if (this.get('content.id')) {
+//      this.transitionToRoute('stocks');
+    }
+  }, //.observes('content.id'),
 
 
   cancel: function() {

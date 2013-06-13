@@ -5,8 +5,9 @@ App.ContactsDeleteController = Em.ObjectController.extend({
 	      this.get('content').deleteRecord();
 	      this.get('store').commit();
 
-	      // return to the main contacts listing page
-	      this.get('target.router').transitionTo('contacts.index');
+		flash_message('Contact was successfully deleted.', 'success') ;	
+		
+	  	return this.transitionToRoute('contacts' );
 	    }
   	},
 

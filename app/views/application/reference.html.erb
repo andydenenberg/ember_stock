@@ -104,11 +104,8 @@
             <div class="container">
               <ul class="nav">
                 <li><%= link_to 'Home', home_path %></li>
-                <li><a href="#">Projects</a></li>
                 <li class="active"><%= link_to 'References', reference_path %></li>
-                <li><a href="#">Downloads</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#">Projects</a></li>
               </ul>
             </div>
           </div>
@@ -119,6 +116,12 @@
       <!-- Example row of columns -->
       <div class="row-fluid">
         <div class="span6">
+			<%= link_to 'http://pivotallabs.com/playing-with-ember-js-and-devise',
+			 'http://pivotallabs.com/playing-with-ember-js-and-devise' %><br>
+			<%= link_to 'https://github.com/ebryn/ember-model', 'https://github.com/ebryn/ember-model' %><br>
+	
+			The latest Ember builds including Ember-Data
+			<%= link_to 'builds.ember.com', 'http://builds.emberjs.com/' %><br>
 			Great new Book on Ember
 			<%= link_to 'Ember in Action', 'http://www.manning.com/skeie/' %><br>
 			Interesting, example on secure Ember login

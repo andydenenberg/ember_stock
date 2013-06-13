@@ -1,6 +1,6 @@
 App.IndexRoute = Ember.Route.extend({
   redirect: function() {
-    this.transitionTo('contacts');
+    this.transitionTo('home');
 //	this.transitionTo('stocks');
   }
 });

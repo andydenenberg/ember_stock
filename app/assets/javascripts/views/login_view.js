@@ -1,6 +1,5 @@
-App.StocksView = Em.View.extend({
+App.LoginView = Em.View.extend({
 	didInsertElement: function() {
         this.$('#flash').hide();
     }
 });
-

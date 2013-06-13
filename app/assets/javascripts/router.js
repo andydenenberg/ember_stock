@@ -1,4 +1,6 @@
 App.Router.map(function() {
+  this.route('home' , { path: '/home' });
+  this.route("login", { path: "/login" });
   this.resource('contacts', function() {
     this.route('new');
 	this.route('edit', { path: '/:contact_id/edit' });
@@ -12,3 +14,4 @@ App.Router.map(function() {
     this.resource('stock', {path: ':stock_id'});
   });
 });
+

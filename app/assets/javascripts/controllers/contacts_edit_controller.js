@@ -8,14 +8,15 @@ App.ContactsEditController = Em.ObjectController.extend({
 		stock.set('symbol', stock.get('symbol').toUpperCase() ) ;
 	});
 
-	$("#flash span").text("Contact successfully updated.")
-	.show().parent().fadeIn()
-	.delay(2000).fadeOut('slow', function() { 
-	    $("#flash span").text('') 
-	});
-
+	flash_message('Contact successfully updated.', 'success') ;	
+	
 	console.log('store:', this.store) ;
     this.store.commit();
+
+	//	// check and remove any stock records created, but not persisted in server ( id: null ) 
+	this.controllerFor('stocks').clean_up() ;
+
+
 	return this.transitionToRoute('contact', this.content);
   },
 

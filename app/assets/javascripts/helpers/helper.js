@@ -1,3 +1,10 @@
+function numberWithCommas(n) {
+    var parts=n.toString().split(".");
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+}
+	
+
+
 Handlebars.registerHelper('submitButton', function(text) {
   return new Handlebars.SafeString('<button type="submit" class="btn btn-primary">' + text + '</button>');
 });
@@ -13,6 +20,7 @@ Ember.Handlebars.registerBoundHelper('decimal', function(contact) {
   return numberWithCommas(Number(contact).toFixed(2))
 });
 
+// {{colorize_route App.current_path}}
 Ember.Handlebars.registerBoundHelper('colorize_route', function(value, options) {
 	color = 'label-info' ;
 	flag = '' ;

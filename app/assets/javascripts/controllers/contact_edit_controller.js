@@ -41,11 +41,13 @@ App.ContactEditController = Em.ObjectController.extend({
     this.transaction = undefined;
     this.get('controllers.contact').stopEditing();
 
-	$("#flash span").text("Contact successfully updated.")
-	.show().parent().fadeIn()
-	.delay(2000).fadeOut('slow', function() { 
-	    $("#flash span").text('') 
-	});
+	flash_message('Contact was successfully updated.', 'success') ;	
+	
+	//	// check and remove any stock records created, but not persisted in server ( id: null ) 
+	this.controllerFor('stocks').clean_up() ;
+	
+	
+  	return this.transitionToRoute('contact', this.get('content') );
 
   },
 
@@ -66,6 +68,7 @@ App.ContactEditController = Em.ObjectController.extend({
   },
 
   removeStock: function(stock) {
+	console.log(stock) ;
     stock.deleteRecord();
 
   }

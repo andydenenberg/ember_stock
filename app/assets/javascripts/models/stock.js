@@ -11,6 +11,13 @@ App.Stock  = DS.Model.extend({
 	return state
    }.property('isDirty').cacheable(),
 
+
+//	didUpdate: function() {
+// 	},
+// 	didCreate: function() {
+//   		alert('Stock Created') ;
+// 	},
+
   created: function() {
 	var created_date = this.get('created_date');
 //	year = Date(created_date * 1000).getFullYear() ;
@@ -18,8 +25,12 @@ App.Stock  = DS.Model.extend({
   }.property('created_date'),
 
   position_cost: function() {
-	var cost = this.get('quantity') * this.get('purchase_price') ;
-	return numberWithCommas(cost.toFixed(2))
-  }.property('quantity', 'purchase_price')
+	return this.get('quantity') * this.get('purchase_price')
+  }.property('quantity', 'purchase_price'),
+
+//	didLoad: function() {
+//    console.log('stock:didLoad model:', this.toJSON() );
+//  },
+
 
 });

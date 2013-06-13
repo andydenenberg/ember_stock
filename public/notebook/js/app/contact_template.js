@@ -47,6 +47,8 @@ Ember.TEMPLATES['CreateContactDialog'] = Ember.Handlebars.compile(
 
 
 Ember.TEMPLATES['contact'] = Ember.Handlebars.compile('' +
+'<a href="/" class="btn btn-mini" >Exit</a> ' +
+
 '<button {{action doCreateContact}} class="btn btn-mini btn-info">Add Contact</button><br><br>' +
 '{{view Notes.ContactListView}}' +
 '<br><a href="/notebook.html">Notebook</a> | <b>Contact</b>' +

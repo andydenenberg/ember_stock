@@ -1,5 +1,12 @@
 @import "twitter/bootstrap";
 
+p.box{
+	font-size: 24.5px;
+    height:40px;
+    line-height:40px; /* here it is! */
+    width:400px;
+    padding:0px 
+}
 
 .sort {
   font-weight: bold;
@@ -75,10 +82,17 @@
   margin-top: 0;
 }
 
+.navbar {
+  .brand .active {
+	  font-size:18pt;
+	  color: black;
+  }
+}
 
 .navbar {
   .brand a {
     &:hover {
+	  font-size:18pt;
       text-decoration: none;
     }
   }

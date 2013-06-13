@@ -25,18 +25,14 @@ App.ContactsNewController = Em.ObjectController.extend({
     // commit and then clear the local transaction
     this.transaction.commit();
     this.transaction = null;
-
-    console.log('contact_saved');
-	  count = App.Contact.find().get('length') ;	
-	  App.set('contact_count', count);
-
+    this.transitionToRoute('contacts');
   },
 
   transitionAfterSave: function() {
     // when creating new records, it's necessary to wait for the record to be assigned
     // an id before we can transition to its route (which depends on its id)
     if (this.get('content.id')) {
-      this.transitionToRoute('contact', this.get('content'));
+//      this.transitionToRoute('contact', this.get('content'));
     }
   }.observes('content.id'),
 

@@ -9,7 +9,7 @@ App.Adapter.map('App.Contact', {
   stocks: {embedded: 'always'}
 });
 
-App.Adapter.map('App.Stock');
+//App.Adapter.map('App.Stock');
 
 App.Store = DS.Store.extend({
   revision: 12,

@@ -2,10 +2,9 @@
 <td>{{#linkTo "stock" stock}} {{stock.symbol}} ({{stock.state}}){{/linkTo}}</td>
 <td style='text-align:right;'> {{decimal stock.quantity}} </td>
 <td style='text-align:right;'> ${{decimal stock.purchase_price}} </td>
-<td style='text-align:right;'> ${{stock.position_cost}} </td>
+<td style='text-align:right;'> ${{decimal stock.position_cost}} </td>
 <td style='text-align:center;'>{{stock.created}}</td>
-<td> {{stock.id}}</td>
-<td> {{stock.contact.fullName}}</td>
+<td> {{stock.contact.fullName}} (id:{{stock.contact.id}}) </td>
 <td> {{#linkTo "stocks.edit" stock class='btn btn-mini'}}Edit{{/linkTo}}
 	 {{#linkTo "stocks.delete" stock class='btn btn-mini btn-danger'}}Delete{{/linkTo}}
 </td>

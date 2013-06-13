@@ -10,6 +10,10 @@ App.ApplicationController = Em.Controller.extend({
 	 	return this.transitionToRoute('progress');
 	},
 	
+  Exit: function() {
+	 	return this.transitionToRoute('exit');
+	},
+
   goHome: function() {
 	 	return this.transitionToRoute('about');
 	},
@@ -56,6 +60,14 @@ App.goProgressView = JQ.ButtonView.extend({
   // When the button is clicked...
   click: function() {
 	this.get('controller').goProgress();
+   }
+});
+
+// Create a subclass of `JQ.ButtonView` to define behavior for our button.
+App.ExitView = JQ.ButtonView.extend({
+  // When the button is clicked...
+  click: function() {
+	this.get('controller').Exit();
    }
 });
 

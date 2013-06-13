@@ -1,4 +1,5 @@
 App.Router.map(function() {
+  this.route("exit", {path: "http://localhost:3000/"})
   this.route("progress", { path: "/progress" });
   this.route("about", { path: "/about" });
   this.resource('contacts', function() {

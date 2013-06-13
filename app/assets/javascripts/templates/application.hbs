@@ -2,17 +2,31 @@
   <div class="navbar-inner">
     <div class="container-fluid">
       <div class="brand">
-			{{#linkTo "contacts"}}Contacts{{/linkTo}} | {{#linkTo "stocks"}}Stocks{{/linkTo}} |  Path: {{colorize_route App.current_path}}
+			
+			{{#linkTo "home"}}Home{{/linkTo}} |
+			{{#linkTo "contacts"}}Contacts{{/linkTo}} |
+			{{#linkTo "stocks"}}Stocks{{/linkTo}} |
+			<a href='/'>Exit</a>
+			
 	  </div>
-      <div class="btn-group pull-right">
-        {{#linkTo "contacts.new" class="btn"}}<i class="icon-plus-sign"></i> Add Contact{{/linkTo}}
-        {{#linkTo "stocks.new" class="btn"}}<i class="icon-plus-sign"></i> Add Stock{{/linkTo}}
-      </div>
+
+	  <ul class="nav pull-right">
+		{{#if App.logged_in_state }}
+		<div class="btn-group">
+			{{#linkTo 'login' classNameBindings="view.login_button_class"}}<i class="icon-user"></i> {{App.logged_in_user}}{{/linkTo}}
+	  		<button {{action "Logout" target="controller"}} {{bindAttr class="view.login_button_class"}}>
+			    <i class="icon-off"></i> Logout</button>
+		</div>
+		{{/if}}
+	  </ul>
+	
     </div>
   </div>
 </div>
 <div class="container-fluid" id="main">
   <div class="row-fluid">
+
     {{outlet}}
+
   </div>
 </div>

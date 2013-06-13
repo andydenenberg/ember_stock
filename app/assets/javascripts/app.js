@@ -10,39 +10,24 @@
 
 App = Em.Application.create({
 	LOG_TRANSITIONS: true,
-	current_path: null
+	current_path: null,
+	logged_in_state: false,
+	logged_in_user: ''
 	});
 
-App.ApplicationController = Ember.Controller.extend({
-  currentPathDidChange: function() {
-    path = this.get('currentPath');
-	App.set('current_path', path) ;
-  }.observes('currentPath')
-});
+// Expect creditionals
+App.USERNAME = "test@example.com";
+App.PASSWORD = "xxx";
 
-//ready = 	function() {
-//			count = App.Contact.find().get('length') ;	
-//			alert(count) ;
-//		    App.set('contact_count', count);
-		
-//	  console.dir(App.Contact.find().get('length'));
-//	};
-	
-//	App.ready = function() {
-//		App.Contact.find().then(function(contacts) {console.log(contacts.content.length)})
-//			ready();
-//	};
-	
-
-
-//App.addObserver("isLoaded", alert('sdfdsf'));
+function flash_message(message,severity) {
+	$("#flash").attr("class","alert alert-" + severity);			
+	$("#flash span").text(message)
+	.show().parent().fadeIn()
+	.delay(2000).fadeOut('slow', function() { 
+	    $("#flash span").text('') 
+	});	
+};
 
 // Defer App readiness until it should be advanced for either
 // testing or production.
 App.deferReadiness();
-
-function numberWithCommas(n) {
-    var parts=n.toString().split(".");
-    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
-}
-	

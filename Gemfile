@@ -15,7 +15,11 @@ end
 
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'jquery-rails'
-gem 'ember-rails', github: 'emberjs/ember-rails'
+
+# gem 'ember-rails', github: 'emberjs/ember-rails'
+gem 'ember-rails'
+gem 'ember-source', '1.0.0.rc5' # or the version you need
+gem 'handlebars-source', '1.0.0.rc4' # or the version you need
 
 group :test, :development do
   gem 'minitest'

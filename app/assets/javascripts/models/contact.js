@@ -10,6 +10,13 @@ App.Contact  = DS.Model.extend({
 	return state
    }.property('isDirty').cacheable(),
 
+//	didUpdate: function() {
+//    alert('Contact Updated') ;
+//  	},
+//  	didCreate: function() {
+//    alert('Contact Created') ;
+//  	},
+
   portfolio_value: function() {
 	cost = 0 ;
 	this.get('stocks').forEach(function(stock){

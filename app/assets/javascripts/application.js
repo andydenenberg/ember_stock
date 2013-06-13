@@ -6,8 +6,8 @@
 //
 //= require jquery
 //= require handlebars
-//= require ember
-//= require ember-data
+//= require ember-latest
+//= require ember-data-latest
 //= require md5
 //= require jquery_ujs
 //= require_tree ./lib
